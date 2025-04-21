@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>HTML + CSS</title>
+    <link
+      rel="stylesheet"
+      href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+    />
+    <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <header class="text-black">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">ICC Player Management</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a href="index.html" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="playerList.html" class="nav-link">Players List</a>
+              </li>
+              <li class="nav-item">
+                <a href="addPlayer.html" class="nav-link">Add Players</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="container py-3">
+        <h1>Player List</h1>
+        <label for="roleFilter">Filter by Playing Role:</label>
+        <select id="roleFilter" class="form-control">
+          <option value="All-rounder">All-rounder</option>
+          <option value="Batsman">Batsman</option>
+          <option value="Bowler">Bowler</option>
+        </select>
+        <br />
+        <div id="loadingMessage"></div>  
+        <br />
+        <ul id="playerList"></div>
+      </div>
+    </main>
+    <script>
+      const roleFilter = document.querySelector("#roleFilter");
+      const playerList = document.querySelector("#playerList");
+      const loadingMessage = document.querySelector("#loadingMessage");
+
+      const apiUrl =
+        "https://players-backend-student-neog-ca.replit.app/players";
+
+      function fetchData() {
+        fetch(apiUrl)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            if (data) {
+              // console.log(data);
+              updatePlayerList(data);
+            }
+          })
+          .catch(function (error) {
+            playerList.textContent = "An error occured while fetching data.";
+          });
+      }
+      fetchData();
+
+
+      function updatePlayerList(data){
+        if (data) {
+          loadingMessage.textContent = "";      
+          playerList.textContent = "";
+          for (let i = 0; i < data.length; i++) {
+            const li = document.createElement("li");
+            li.className = "col-md-12 my-4";
+            li.innerHTML = `${data[i].fullName} - Playing Role: ${data[i].playingRole} - Nationality: ${data[i].nationality} <button class="btn btn-danger float-end" data-id="${data[i]._id}" id="deleteBtn">Delete</button>`;
+            playerList.appendChild(li);
+          }
+        }
+
+        const deleteButtons = document.querySelectorAll("#deleteBtn");
+        for (let i = 0; i < deleteButtons.length; i++) {
+          deleteButtons[i].addEventListener("click", function (event) {
+            const PlayerId = event.target.getAttribute("data-id");
+            console.log(PlayerId);
+
+            const apiDeleteUrl = `https://players-backend-student-neog-ca.replit.app/players/${PlayerId}`;
+
+            fetch(apiDeleteUrl, {
+              method: "DELETE",
+            })
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (data) {
+                if (data) {
+                  loadingMessage.textContent =
+                    "Student detail deleted successfully.";
+
+                    fetchData();
+                }
+              });
+          });
+        }
+      }
+      // fetchData();
+
+
+roleFilter.addEventListener("change", applyroleFilter);
+
+function applyroleFilter() {
+  const userSelectedRole = roleFilter.value;
+  // console.log(userSelectedRole);
+
+  const selectedRole = [];
+
+  fetch(apiUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      if (data) {
+        // console.log(data);
+        if (userSelectedRole !== "All-rounder") {
+          for (let i = 0; i < data.length; i++) {
+            // console.log("inside for loop");
+            if (data[i].playingRole === userSelectedRole) {
+              // console.log("inside if condition...");
+              selectedRole.push(data[i]);
+            }
+          }
+          updatePlayerList(selectedRole);
+        } else {
+          updatePlayerList(data);
+        }
+      }
+    });
+}
+      
+    </script>
+  </body>
+</html>

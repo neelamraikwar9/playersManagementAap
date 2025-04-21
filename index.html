@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>HTML + CSS</title>
+    <link
+      rel="stylesheet"
+      href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+    />
+    <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <header class="text-black">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">ICC Player Management</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a href="index.html" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="playerList.html" class="nav-link">Players List</a>
+              </li>
+              <li class="nav-item">
+                <a href="addPlayer.html" class="nav-link">Add Players</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container py-5 text-bg-primary py-5">
+        <div class="container text-center py-2">
+          <h1>Welcome to Players Management</h1>
+          <p>
+            Manage cricket player records with this simple management system.
+          </p>
+        </div>
+      </div>
+
+      <div class="container text-center py-5">
+        <h3>Players List</h3>
+        <p>View and manage players in your system.</p>
+        <a class="btn btn-primary" href="playerList.html">Player List</a>
+        <br />
+        <br />
+        <h3>Manage Players</h3>
+        <p>Add a new players to the system with their details.</p>
+        <a class="btn btn-primary" href="addPlayer.html">AddPlayers</a>
+      </div>
+    </main>
+  </body>
+</html>
